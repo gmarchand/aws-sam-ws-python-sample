@@ -1,0 +1,28 @@
+version: '2'
+vars:
+  S3_BUCKET: gma-test
+  STACK_NAME: aws-sam-ws-python-stack
+  TEMPLATE: template.yml
+tasks:
+  validate:
+    cmds:
+      - sam validate --template {{.TEMPLATE}}
+  build:
+    deps:
+      - validate
+    cmds:
+      - sam build --use-container --template {{.TEMPLATE}} --debug --manifest requirements.txt
+  package:
+    deps: []
+    cmds:
+      - sam package --s3-bucket {{.S3_BUCKET}} --output-template-file packaged.yaml
+  deploy:
+    deps: []
+    cmds:
+      - sam deploy --s3-bucket {{.S3_BUCKET}} --template-file packaged.yaml --capabilities CAPABILITY_IAM --stack-name {{.STACK_NAME}}
+  logtail:
+    cmds:
+      - sam logs -n FirstFunction --stack-name {{.STACK_NAME}} --tail
+  local-api:
+    cmds:
+      - sam local start-api --template {{.TEMPLATE}}
