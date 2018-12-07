@@ -5,24 +5,36 @@ vars:
   TEMPLATE: template.yml
 tasks:
   validate:
+    desc: Validate Cloudformation syntax
     cmds:
       - sam validate --template {{.TEMPLATE}}
+
   build:
+    desc: Build Cloudformation template
     deps:
       - validate
     cmds:
       - sam build --use-container --template {{.TEMPLATE}} --debug --manifest requirements.txt
+
   package:
+    desc: transform and package cloudfomartion template to Amazon S3
     deps: []
     cmds:
       - sam package --s3-bucket {{.S3_BUCKET}} --output-template-file packaged.yaml
+
   deploy:
-    deps: []
+    desc: Deploy cloudformation template
+    deps: [package]
     cmds:
       - sam deploy --s3-bucket {{.S3_BUCKET}} --template-file packaged.yaml --capabilities CAPABILITY_IAM --stack-name {{.STACK_NAME}}
+
   logtail:
     cmds:
       - sam logs -n FirstFunction --stack-name {{.STACK_NAME}} --tail
+
   local-api:
+    desc: Run local API
     cmds:
       - sam local start-api --template {{.TEMPLATE}}
+    env:
+      TABLE_NAME: aws-sam-ws-python-stack-HelloTable-1JUQU1W2M6K5J 

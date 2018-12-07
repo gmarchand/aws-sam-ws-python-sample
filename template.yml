@@ -1,31 +1,53 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Transform: AWS::Serverless-2016-10-31
-
+Transform: 'AWS::Serverless-2016-10-31'
 Resources:
-  HelloWorld:
+  HelloWorldGet:
     Type: 'AWS::Serverless::Function'
     Properties:
-      Handler: index.handler
+      Handler: index.get
       Runtime: python3.6
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName:
+              Ref: HelloTable
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Ref: HelloTable
       Events:
         GetEvent:
           Type: Api
           Properties:
             Path: /
             Method: get
+      Description: HelloWorld Get Function
+  
+  HelloWorldPost:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.post
+      Runtime: python3.6
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName:
+              Ref: HelloTable
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Ref: HelloTable
+      Events:
         PostEvent:
           Type: Api
           Properties:
-            Path: /
+            Path: '/{name}'
             Method: post
-      Description: 'HelloWorld Function'
-      
+      Description: HelloWorld Post Function
+  
+  HelloTable:
+    Type: 'AWS::Serverless::SimpleTable'
 Outputs:
-
-    ApigwURL:
-      Description: "API Gateway endpoint URL"
-      Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
-
-    FirstFunction:
-      Description: "HelloWorld Function ARN"
-      Value: !GetAtt HelloWorld.Arn
+  ApigwURL:
+    Description: API Gateway endpoint URL
+    Value:
+      'Fn::Sub': >-
+        https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/
