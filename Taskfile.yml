@@ -1,8 +1,12 @@
 version: '2'
+
+# Go task : https://taskfile.org
+
 vars:
   S3_BUCKET: gma-test
   STACK_NAME: aws-sam-ws-python-stack
   TEMPLATE: template.yml
+
 tasks:
   validate:
     desc: Validate Cloudformation syntax
@@ -30,11 +34,12 @@ tasks:
 
   logtail:
     cmds:
-      - sam logs -n FirstFunction --stack-name {{.STACK_NAME}} --tail
+      - sam logs -n {{.LAMBDA}} --stack-name {{.STACK_NAME}} --tail
 
   local-api:
     desc: Run local API
     cmds:
       - sam local start-api --template {{.TEMPLATE}}
     env:
-      TABLE_NAME: aws-sam-ws-python-stack-HelloTable-1JUQU1W2M6K5J 
+      TABLE_NAME: aws-sam-ws-python-stack-HelloTable-1DT9ELGRNJQGX
+ 

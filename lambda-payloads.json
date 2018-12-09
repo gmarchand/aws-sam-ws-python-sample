@@ -1,0 +1,14 @@
+{
+    "HelloWorldGet": {
+        "lambda": {},
+        "apigateway": {
+            "path": "/",
+            "method": {
+                "value": "GET",
+                "items": [
+                    "GET"
+                ]
+            }
+        }
+    }
+}

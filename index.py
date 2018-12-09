@@ -2,6 +2,10 @@ import json
 import datetime
 import boto3
 import os
+import logging
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 dynamodb = boto3.resource('dynamodb')
 
@@ -22,11 +26,24 @@ def get(event, context):
 # Post a new Item to the DynamoDB table
 def post(event, context):
     table = dynamodb.Table(os.environ['TABLE_NAME'])
+    name = event['pathParameters']['name']
+    
+    logger.info('Hello %s !', name)
+    
+    result = table.put_item(
+        Item = {
+                'name': name,
+                'timestamp': datetime.datetime.utcnow().isoformat()
+               } 
+        )
+
+    logger.info(result)
+    
     data = {
         'output': 'Hello World Post',
         'body' : event,
         'timestamp': datetime.datetime.utcnow().isoformat()
     }
     return {'statusCode': 200,
-            'body': json.dumps(data),
+            'body': json.dumps(result),
             'headers': {'Content-Type': 'application/json'}}

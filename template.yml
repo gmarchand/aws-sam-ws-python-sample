@@ -45,6 +45,11 @@ Resources:
   
   HelloTable:
     Type: 'AWS::Serverless::SimpleTable'
+    Properties:
+      PrimaryKey:
+        Name: name
+        Type: String
+
 Outputs:
   ApigwURL:
     Description: API Gateway endpoint URL
