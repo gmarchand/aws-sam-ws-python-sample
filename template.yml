@@ -1,10 +1,11 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
 Resources:
-  HelloWorldGet:
+
+  HelloWorldList:
     Type: 'AWS::Serverless::Function'
     Properties:
-      Handler: index.get
+      Handler: index.list
       Runtime: python3.6
       Policies:
         - DynamoDBCrudPolicy:
@@ -20,8 +21,9 @@ Resources:
           Properties:
             Path: /
             Method: get
-      Description: HelloWorld Get Function
-  
+      Description: HelloWorld List Function
+
+      
   HelloWorldPost:
     Type: 'AWS::Serverless::Function'
     Properties:
@@ -42,7 +44,6 @@ Resources:
             Path: '/{name}'
             Method: post
       Description: HelloWorld Post Function
-  
   HelloTable:
     Type: 'AWS::Serverless::SimpleTable'
     Properties:

@@ -6,6 +6,8 @@ vars:
   S3_BUCKET: gma-test
   STACK_NAME: aws-sam-ws-python-stack
   TEMPLATE: template.yml
+  #DDB_TABLE: aws-sam-ws-python-stack-HelloTable-1DT9ELGRNJQGX
+  API_URL: 'https://67ga7wr8x7.execute-api.eu-west-1.amazonaws.com/Prod/'
 
 tasks:
   validate:
@@ -42,4 +44,9 @@ tasks:
       - sam local start-api --template {{.TEMPLATE}}
     env:
       TABLE_NAME: aws-sam-ws-python-stack-HelloTable-1DT9ELGRNJQGX
- 
+  
+
+  load-test:
+    desc: load test the API
+    cmds:
+    - locust -f loadtest/locustfile.py --host={{.API_URL}} --port 8080

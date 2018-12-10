@@ -10,12 +10,11 @@ logger.setLevel(logging.INFO)
 dynamodb = boto3.resource('dynamodb')
 
 # List all items of the DynamoDB Table
-def get(event, context):
-    print(os.environ)
+def list(event, context):
     table = dynamodb.Table(os.environ['TABLE_NAME'])
     result = table.scan()
     data = {
-        'output': 'Hello World Get',
+        'output': 'Hello World List',
         'body': json.dumps(result['Items']),
         'timestamp': datetime.datetime.utcnow().isoformat()
     }
@@ -23,6 +22,29 @@ def get(event, context):
             'body': json.dumps(data),
             'headers': {'Content-Type': 'application/json'}}
 
+
+# Get an item from the DynamoDB table
+def get(event,context):
+    table = dynamodb.Table(os.environ['TABLE_NAME'])
+    name = event['pathParameters']['name']
+
+    # fetch todo from the database
+    result = table.get_item(
+        Key={
+            'name': name
+        }
+    )
+
+    data = {
+        'output': 'Hello World Get',
+        'body' : result['Item'],
+        'timestamp': datetime.datetime.utcnow().isoformat()
+    }
+    return {'statusCode': 200,
+            'body': json.dumps(data),
+            'headers': {'Content-Type': 'application/json'}}
+    
+    
 # Post a new Item to the DynamoDB table
 def post(event, context):
     table = dynamodb.Table(os.environ['TABLE_NAME'])
@@ -41,9 +63,9 @@ def post(event, context):
     
     data = {
         'output': 'Hello World Post',
-        'body' : event,
+        'body' : result,
         'timestamp': datetime.datetime.utcnow().isoformat()
     }
     return {'statusCode': 200,
-            'body': json.dumps(result),
+            'body': json.dumps(data),
             'headers': {'Content-Type': 'application/json'}}
