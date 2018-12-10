@@ -2,6 +2,27 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
 Resources:
 
+  HelloWorldGet:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.get
+      Runtime: python3.6
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName:
+              Ref: HelloTable
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Ref: HelloTable
+      Events:
+        GetEvent:
+          Type: Api
+          Properties:
+            Path: '/{name}'
+            Method: get
+      Description: HelloWorld Get Function
+
   HelloWorldList:
     Type: 'AWS::Serverless::Function'
     Properties:
@@ -44,6 +65,7 @@ Resources:
             Path: '/{name}'
             Method: post
       Description: HelloWorld Post Function
+
   HelloTable:
     Type: 'AWS::Serverless::SimpleTable'
     Properties:

@@ -15,7 +15,7 @@ def list(event, context):
     result = table.scan()
     data = {
         'output': 'Hello World List',
-        'body': json.dumps(result['Items']),
+        'body': result['Items'],
         'timestamp': datetime.datetime.utcnow().isoformat()
     }
     return {'statusCode': 200,
@@ -27,8 +27,9 @@ def list(event, context):
 def get(event,context):
     table = dynamodb.Table(os.environ['TABLE_NAME'])
     name = event['pathParameters']['name']
-
-    # fetch todo from the database
+    
+    logger.info('Hello %s !', name)
+    
     result = table.get_item(
         Key={
             'name': name
