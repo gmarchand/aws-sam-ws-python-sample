@@ -22,21 +22,6 @@ This sample includes:
 What Do I Do Next?
 ------------------
 
-If you have checked out a local copy of your repository you can start making changes
-to the sample code.  We suggest making a small change to index.py first, so you can
-see how changes pushed to your project's repository are automatically picked up by your
-project pipeline and deployed to AWS Lambda and Amazon API Gateway. (You can watch the pipeline
-progress on your AWS CodeStar project dashboard.)Once you've seen how that works,
-start developing your own code, and have fun!
-
-To run your tests locally, go to the root directory of the
-sample code and run the `python -m unittest discover tests` command, which
-AWS CodeBuild also runs through your `buildspec.yml` file.
-
-To test your new code during the release process, modify the existing tests or
-add tests to the tests directory. AWS CodeBuild will run the tests during the
-build stage of your project pipeline. You can find the test results
-in the AWS CodeBuild console.
 
 Learn more about AWS CodeBuild and how it builds and tests your application here:
 https://docs.aws.amazon.com/codebuild/latest/userguide/concepts.html
