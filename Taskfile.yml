@@ -6,6 +6,7 @@ vars:
   S3_BUCKET: gma-test
   STACK_NAME: aws-sam-ws-python-stack
   TEMPLATE: template.yml
+  LAMBDA: HelloWorldPost
 
 tasks:
   validate:
