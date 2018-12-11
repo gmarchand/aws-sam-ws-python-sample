@@ -19,13 +19,13 @@ tasks:
     desc: transform and package cloudfomartion template to Amazon S3
     deps: []
     cmds:
-      - sam package --s3-bucket {{.S3_BUCKET}} --output-template-file packaged.yaml
+      - aws cloudformation package --s3-bucket {{.S3_BUCKET}} --template {{.TEMPLATE}} --output-template-file packaged.yaml
 
   deploy:
     desc: Deploy cloudformation template
-    deps: [package]
+    deps: [package,validate]
     cmds:
-      - sam deploy --s3-bucket {{.S3_BUCKET}} --template-file packaged.yaml --capabilities CAPABILITY_IAM --stack-name {{.STACK_NAME}}
+      - aws cloudformation deploy --s3-bucket {{.S3_BUCKET}} --template-file packaged.yaml --capabilities CAPABILITY_IAM --stack-name {{.STACK_NAME}}
 
   logtail:
     cmds:

@@ -7,6 +7,11 @@ Resources:
     Properties:
       Handler: index.get
       Runtime: python3.6
+      FunctionName: HelloWorldGet
+      Description: HelloWorld Get Function
+      Tags:
+        AppName: webinar-sample
+        Environment: sandbox
       Policies:
         - DynamoDBCrudPolicy:
             TableName:
@@ -28,6 +33,11 @@ Resources:
     Properties:
       Handler: index.list
       Runtime: python3.6
+      FunctionName: HelloWorldList
+      Description: HelloWorld List Function
+      Tags:
+        AppName: webinar-sample
+        Environment: sandbox
       Policies:
         - DynamoDBCrudPolicy:
             TableName:
@@ -42,14 +52,17 @@ Resources:
           Properties:
             Path: /
             Method: get
-      Description: HelloWorld List Function
-
       
   HelloWorldPost:
     Type: 'AWS::Serverless::Function'
     Properties:
       Handler: index.post
       Runtime: python3.6
+      FunctionName: HelloWorldPost
+      Description: HelloWorld Post Function
+      Tags:
+        AppName: webinar-sample
+        Environment: sandbox
       Policies:
         - DynamoDBCrudPolicy:
             TableName:
@@ -64,7 +77,7 @@ Resources:
           Properties:
             Path: '/{name}'
             Method: post
-      Description: HelloWorld Post Function
+      
 
   HelloTable:
     Type: 'AWS::Serverless::SimpleTable'
@@ -72,6 +85,10 @@ Resources:
       PrimaryKey:
         Name: name
         Type: String
+      TableName: HelloTable
+      Tags:
+        AppName: webinar-sample
+        Environment: sandbox
 
 Outputs:
   ApigwURL:
