@@ -34,5 +34,5 @@ tasks:
     cmds:
       - sam local start-api --template {{.TEMPLATE}}
     env:
-      TABLE_NAME: aws-sam-ws-python-stack-HelloTable-1DT9ELGRNJQGX
+      TABLE_NAME: HelloTable
  
