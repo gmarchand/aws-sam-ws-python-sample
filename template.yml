@@ -1,6 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Transform: AWS::Serverless-2016-10-31
-
+Transform: 'AWS::Serverless-2016-10-31'
 Resources:
   HelloWorld:
     Type: 'AWS::Serverless::Function'
@@ -18,14 +17,16 @@ Resources:
           Properties:
             Path: /
             Method: post
-      Description: 'HelloWorld Function'
-      
+      Description: HelloWorld Function
 Outputs:
-
-    ApigwURL:
-      Description: "API Gateway endpoint URL"
-      Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
-
-    FirstFunction:
-      Description: "HelloWorld Function ARN"
-      Value: !GetAtt HelloWorld.Arn
+  ApigwURL:
+    Description: API Gateway endpoint URL
+    Value:
+      'Fn::Sub': >-
+        https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/
+  HelloWorldFunction:
+    Description: HelloWorld Function ARN
+    Value:
+      'Fn::GetAtt':
+        - HelloWorld
+        - Arn

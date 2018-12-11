@@ -5,24 +5,28 @@ vars:
   TEMPLATE: template.yml
 tasks:
   validate:
+    desc: Validate CFN Template
     cmds:
       - sam validate --template {{.TEMPLATE}}
-  build:
-    deps:
-      - validate
-    cmds:
-      - sam build --use-container --template {{.TEMPLATE}} --debug --manifest requirements.txt
+      
   package:
+    desc: Package SAM application
     deps: []
     cmds:
       - sam package --s3-bucket {{.S3_BUCKET}} --output-template-file packaged.yaml
+      
   deploy:
-    deps: []
+    desc: Deploy SAM Application
+    deps: [validate,package]
     cmds:
       - sam deploy --s3-bucket {{.S3_BUCKET}} --template-file packaged.yaml --capabilities CAPABILITY_IAM --stack-name {{.STACK_NAME}}
+      
   logtail:
+    desc: Cloudwatch logs of my function
     cmds:
-      - sam logs -n FirstFunction --stack-name {{.STACK_NAME}} --tail
+      - sam logs -n HelloWorld --stack-name {{.STACK_NAME}} --tail
+      
   local-api:
+    desc: Start local environment
     cmds:
       - sam local start-api --template {{.TEMPLATE}}
