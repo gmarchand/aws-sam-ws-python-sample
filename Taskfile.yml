@@ -13,13 +13,6 @@ tasks:
     cmds:
       - sam validate --template {{.TEMPLATE}}
 
-  build:
-    desc: Build Cloudformation template
-    deps:
-      - validate
-    cmds:
-      - sam build --use-container --template {{.TEMPLATE}} --debug --manifest requirements.txt
-
   package:
     desc: transform and package cloudfomartion template to Amazon S3
     deps: []
@@ -28,7 +21,7 @@ tasks:
 
   deploy:
     desc: Deploy cloudformation template
-    deps: [package]
+    deps: [package,validate]
     cmds:
       - sam deploy --s3-bucket {{.S3_BUCKET}} --template-file packaged.yaml --capabilities CAPABILITY_IAM --stack-name {{.STACK_NAME}}
 
