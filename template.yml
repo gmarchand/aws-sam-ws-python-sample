@@ -46,6 +46,7 @@ Resources:
   HelloTable:
     Type: 'AWS::Serverless::SimpleTable'
     Properties:
+      TableName: HelloTable
       PrimaryKey:
         Name: name
         Type: String
