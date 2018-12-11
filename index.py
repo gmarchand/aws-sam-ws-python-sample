@@ -8,10 +8,10 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 dynamodb = boto3.resource('dynamodb')
+table = dynamodb.Table(os.environ['TABLE_NAME'])
 
 # List all items of the DynamoDB Table
 def list(event, context):
-    table = dynamodb.Table(os.environ['TABLE_NAME'])
     result = table.scan()
     data = {
         'output': 'Hello World List',
@@ -25,7 +25,6 @@ def list(event, context):
 
 # Get an item from the DynamoDB table
 def get(event,context):
-    table = dynamodb.Table(os.environ['TABLE_NAME'])
     name = event['pathParameters']['name']
     
     logger.info('Hello %s !', name)
@@ -48,7 +47,6 @@ def get(event,context):
     
 # Post a new Item to the DynamoDB table
 def post(event, context):
-    table = dynamodb.Table(os.environ['TABLE_NAME'])
     name = event['pathParameters']['name']
     
     logger.info('Hello %s !', name)

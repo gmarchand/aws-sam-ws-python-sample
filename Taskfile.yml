@@ -41,4 +41,4 @@ tasks:
   load-test:
     desc: load test the API
     cmds:
-    - locust -f loadtest/locustfile.py --host={{.API_URL}} --port 8080
+    - locust -f loadtest/locustfile.py --host={{.API_URL}} --clients=200 --hatch-rate=10 --no-web --run-time 5m
