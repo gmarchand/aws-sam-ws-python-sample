@@ -2,6 +2,10 @@ version: '2'
 
 # Go task : https://taskfile.org
 
+vars:
+  API_URL:
+    sh: aws cloudformation describe-stacks --stack-name {{.STACK_NAME}} --query 'Stacks[0].Outputs[?OutputKey==`ApigwURL`].OutputValue' --output text
+
 tasks:
   validate:
     desc: Validate Cloudformation syntax

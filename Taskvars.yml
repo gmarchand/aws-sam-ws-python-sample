@@ -3,4 +3,3 @@ TEMPLATE: template.yml
 S3_BUCKET: gma-test
 LAMBDA: HelloWorldPost
 DDB_TABLE: HelloTable
-API_URL: https://67ga7wr8x7.execute-api.eu-west-1.amazonaws.com/Prod/
