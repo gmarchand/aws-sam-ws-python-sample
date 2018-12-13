@@ -1,4 +1,7 @@
 version: '2'
+
+# https://taskfile.org/#/
+
 vars:
   S3_BUCKET: gma-test
   STACK_NAME: aws-sam-ws-python-stack
